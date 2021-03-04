@@ -17,6 +17,7 @@ unsigned char Intensite=0xA; //On met à 10% comme valeur d'exemple
 unsigned char Lum_ON=0;
 unsigned char Lum_OFF=0;
 unsigned char Lum_Nbre=0;
+int one_mil = 0x820; // C'est le nombre de cycles processeur correspondant à 1ms
 
 sbit FREQ_OUT = P3^2;
 sbit CHG_FREQ = P0^2;
@@ -31,24 +32,34 @@ int i=1;
 
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
 	if (Lum_Nbre !=0 && Lum_ON !=0){
-			//On garde allumé pendant Lum_ON millisecondes
-			//On ne peut PAS utiliser de while car ça bloque le processeur
-			Lum_Nbre = Lum_Nbre - 1;
+		//On garde allumé (à l'intensité qu'on veut) pendant Lum_ON millisecondes
+		TMR3RL = (0xFFFF-(one_mil*Lum_ON));
+		if(FREQ_OUT) {
+			TMR3RL = 0xE018; //Normalement variable avec Intensite
 		}
+		else {
+			TMR3RL = 0xF7DF; // On ne garde PAS à 65535, ça cause des erreurs
+		}
+		Lum_Nbre = Lum_Nbre - 1;
+	}
+			
 		if (Lum_Nbre !=0 && Lum_OFF !=0){
-			//On garde éteint pendant Lum_OFF millisecondes
-			//On ne peut PAS utiliser de while car ça bloque le processeur
+			//On garde éteint pendant Lum_OFF millisecondes => On met FREQ_OUT à 0 et on ne rentre plus dans l'ISR pendant Lum_OFF secondes
+			FREQ_OUT = 0;
+			TMR3RL = (0xFFFF-(one_mil*Lum_OFF));
 			Lum_Nbre = Lum_Nbre - 1;
 		}
+		else {
 	//Gestion du rapport cyclique
 	if(FREQ_OUT) {
 		TMR3RL = 0xE018; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
 	}
 	else {
-		TMR3RL = 0xF018; // On ne garde PAS à 65535, ça cause des erreurs
+		TMR3RL = 0xF7DF; // On ne garde PAS à 65535, ça cause des erreurs
 	}
 	//Générateur de signaux
 	FREQ_OUT = !FREQ_OUT;
+}
 	Reset_Timer3Overflow;
 }
 

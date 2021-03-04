@@ -1,4 +1,4 @@
-C51 COMPILER V9.59.0.0   FF_S1                                                             03/04/2021 10:26:10 PAGE 1   
+C51 COMPILER V9.59.0.0   FF_S1                                                             03/04/2021 10:51:08 PAGE 1   
 
 
 C51 COMPILER V9.59.0.0, COMPILATION OF MODULE FF_S1
@@ -27,98 +27,112 @@ line level    source
   17          unsigned char Lum_ON=0;
   18          unsigned char Lum_OFF=0;
   19          unsigned char Lum_Nbre=0;
-  20          
-  21          sbit FREQ_OUT = P3^2;
-  22          sbit CHG_FREQ = P0^2;
-  23          sbit LED = P1^6;
-  24          sbit BOUTON = P3^7;
-  25          int i=1;
-  26          
-  27          #define Reset_Timer3Overflow TMR3CN &= 0x04
-  28          #define Disable_Timer3 TMR3CN = 0x00
-  29          // Prototypes de Fonctions
-  30          
+  20          int one_mil = 0x820; // C'est le nombre de cycles processeur correspondant à 1ms
+  21          
+  22          sbit FREQ_OUT = P3^2;
+  23          sbit CHG_FREQ = P0^2;
+  24          sbit LED = P1^6;
+  25          sbit BOUTON = P3^7;
+  26          int i=1;
+  27          
+  28          #define Reset_Timer3Overflow TMR3CN &= 0x04
+  29          #define Disable_Timer3 TMR3CN = 0x00
+  30          // Prototypes de Fonctions
   31          
-  32          void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
-  33   1        if (Lum_Nbre !=0 && Lum_ON !=0){
-  34   2            //On garde allumé pendant Lum_ON millisecondes
-  35   2            //On ne peut PAS utiliser de while car ça bloque le processeur
-  36   2            Lum_Nbre = Lum_Nbre - 1;
-  37   2          }
-  38   1          if (Lum_Nbre !=0 && Lum_OFF !=0){
-  39   2            //On garde éteint pendant Lum_OFF millisecondes
-  40   2            //On ne peut PAS utiliser de while car ça bloque le processeur
-  41   2            Lum_Nbre = Lum_Nbre - 1;
-  42   2          }
-  43   1        //Gestion du rapport cyclique
-  44   1        if(FREQ_OUT) {
-  45   2          TMR3RL = 0xE018; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
-  46   2        }
-  47   1        else {
-  48   2          TMR3RL = 0xF018; // On ne garde PAS à 65535, ça cause des erreurs
-  49   2        }
-  50   1        //Générateur de signaux
-  51   1        FREQ_OUT = !FREQ_OUT;
-  52   1        Reset_Timer3Overflow;
-  53   1      }
-*** WARNING C280 IN LINE 32 OF FF-S1.c: 'Intensite': unreferenced local variable
-C51 COMPILER V9.59.0.0   FF_S1                                                             03/04/2021 10:26:10 PAGE 2   
+  32          
+  33          void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
+  34   1        if (Lum_Nbre !=0 && Lum_ON !=0){
+  35   2          //On garde allumé (à l'intensité qu'on veut) pendant Lum_ON millisecondes
+  36   2          TMR3RL = (0xFFFF-(one_mil*Lum_ON));
+  37   2          if(FREQ_OUT) {
+  38   3            TMR3RL = 0xE018; //Normalement variable avec Intensite
+  39   3          }
+  40   2          else {
+  41   3            TMR3RL = 0xF7DF; // On ne garde PAS à 65535, ça cause des erreurs
+  42   3          }
+  43   2          Lum_Nbre = Lum_Nbre - 1;
+  44   2        }
+  45   1            
+  46   1          if (Lum_Nbre !=0 && Lum_OFF !=0){
+  47   2            //On garde éteint pendant Lum_OFF millisecondes => On met FREQ_OUT à 0 et on ne rentre plus dans l'ISR 
+             -pendant Lum_OFF secondes
+  48   2            FREQ_OUT = 0;
+  49   2            TMR3RL = (0xFFFF-(one_mil*Lum_OFF));
+  50   2            Lum_Nbre = Lum_Nbre - 1;
+  51   2          }
+  52   1          else {
+  53   2        //Gestion du rapport cyclique
+C51 COMPILER V9.59.0.0   FF_S1                                                             03/04/2021 10:51:08 PAGE 2   
 
-  54          
-  55          void Lumiere_Stop(void){
-  56   1        //If (Réception du caractère d'extinction par l'UART) {
-  57   1        //Disable_Timer3;   //Désactive le signal d'allumage du pointeur
-  58   1        //}
-  59   1      }
-  60          //-----------------------------------------------------------------------------
-  61          //-----------------------------------------------------------------------------
-  62          // MAIN Routine
-  63          //-----------------------------------------------------------------------------
-  64          void main (void) {
-  65   1             
-  66   1          Init_Device();  // Appel des configurations globales
-  67   1          
-  68   1      // Début Insertion Code Configuration des périphériques ***********************
-  69   1       
-  70   1        
-  71   1      // Fin Code Initialisations ***************************************************
-  72   1      
-  73   1        
-  74   1      // Début Insertion Code Phase Démarrage *************************************** 
-  75   1            EA = 1;
-  76   1        // Fin Code phase Démarrage ***************************************************
-  77   1        
-  78   1        
-  79   1        while(1)
-  80   1              {
-  81   2            Lumiere_Stop(); //On vérifie en permanence si on reçoit le caractère d'extinction
-  82   2              }                       
-  83   1      }
-  84          
-  85          //-----------------------------------------------------------------------------
-  86          //-----------------------------------------------------------------------------
-  87          // Fonctions de configuration des divers périphériques
-  88          //-----------------------------------------------------------------------------
-  89          // Insérez vos fonctions de configuration ici
-  90          
-  91          //-----------------------------------------------------------------------------
-  92          //-----------------------------------------------------------------------------
-  93          // Fonctions d'interruptions
-  94          //-----------------------------------------------------------------------------
-  95          // Insérez vos fonctions d'interruption ici
-  96          
-  97          void ISR_timer3Overflow() interrupt 14
-  98          {
-  99   1      Lumiere(Intensite,Lum_ON, Lum_OFF, Lum_Nbre);
- 100   1      }
+  54   2        if(FREQ_OUT) {
+  55   3          TMR3RL = 0xE018; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
+  56   3        }
+  57   2        else {
+  58   3          TMR3RL = 0xF7DF; // On ne garde PAS à 65535, ça cause des erreurs
+  59   3        }
+  60   2        //Générateur de signaux
+  61   2        FREQ_OUT = !FREQ_OUT;
+  62   2      }
+  63   1        Reset_Timer3Overflow;
+  64   1      }
+*** WARNING C280 IN LINE 33 OF FF-S1.c: 'Intensite': unreferenced local variable
+  65          
+  66          void Lumiere_Stop(void){
+  67   1        //If (Réception du caractère d'extinction par l'UART) {
+  68   1        //Disable_Timer3;   //Désactive le signal d'allumage du pointeur
+  69   1        //}
+  70   1      }
+  71          //-----------------------------------------------------------------------------
+  72          //-----------------------------------------------------------------------------
+  73          // MAIN Routine
+  74          //-----------------------------------------------------------------------------
+  75          void main (void) {
+  76   1             
+  77   1          Init_Device();  // Appel des configurations globales
+  78   1          
+  79   1      // Début Insertion Code Configuration des périphériques ***********************
+  80   1       
+  81   1        
+  82   1      // Fin Code Initialisations ***************************************************
+  83   1      
+  84   1        
+  85   1      // Début Insertion Code Phase Démarrage *************************************** 
+  86   1            EA = 1;
+  87   1        // Fin Code phase Démarrage ***************************************************
+  88   1        
+  89   1        
+  90   1        while(1)
+  91   1              {
+  92   2            Lumiere_Stop(); //On vérifie en permanence si on reçoit le caractère d'extinction
+  93   2              }                       
+  94   1      }
+  95          
+  96          //-----------------------------------------------------------------------------
+  97          //-----------------------------------------------------------------------------
+  98          // Fonctions de configuration des divers périphériques
+  99          //-----------------------------------------------------------------------------
+ 100          // Insérez vos fonctions de configuration ici
+ 101          
+ 102          //-----------------------------------------------------------------------------
+ 103          //-----------------------------------------------------------------------------
+ 104          // Fonctions d'interruptions
+ 105          //-----------------------------------------------------------------------------
+ 106          // Insérez vos fonctions d'interruption ici
+ 107          
+ 108          void ISR_timer3Overflow() interrupt 14
+ 109          {
+ 110   1      Lumiere(Intensite,Lum_ON, Lum_OFF, Lum_Nbre);
+ 111   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     87    ----
+C51 COMPILER V9.59.0.0   FF_S1                                                             03/04/2021 10:51:08 PAGE 3   
+
+   CODE SIZE        =    171    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      6       4
+   DATA SIZE        =      8       4
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
