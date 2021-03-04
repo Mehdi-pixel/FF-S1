@@ -13,7 +13,7 @@
 #include "TP5_Lib_Config_Globale_8051F020.h"
 #include "TP5_Lib_Divers.h"
 
-unsigned char Intensite=0xA;
+unsigned char Intensite=0xA; //On met à 10% comme valeur d'exemple
 unsigned char Lum_ON;
 unsigned char Lum_OFF;
 unsigned char Lum_Nbre;
@@ -29,15 +29,32 @@ int i=1;
 // Prototypes de Fonctions
 
 
-
-
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
-
-
+	if (Lum_Nbre !=0){ //Mode de clignotement (non fini)
+		if (Lum_ON !=0){
+			//On garde allumé pendant Lum_ON millisecondes
+			//On ne peut PAS utiliser de while car ça bloque le processeur
+		}
+		if (Lum_OFF !=0){
+			//On garde éteint pendant Lum_ON millisecondes
+			//On ne peut PAS utiliser de while car ça bloque le processeur
+		}
+		Lum_Nbre = Lum_Nbre - 1;
+	}
+	//Gestion du rapport cyclique
+	if(FREQ_OUT) {
+		TMR3RL = 0xF4EF; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
+	}
+	else {
+		TMR3RL = 0xFFFF; // On garde à 65535 pour avoir la plage la plus grande possible entre les deux reload
+	}
+	//Générateur de signaux
+	FREQ_OUT = !FREQ_OUT;
+	Reset_Timer3Overflow;
 }
 
 void Lumiere_Stop(void){
-	//If (Réception du code d'extinction par l'UART) {
+	//If (Réception du caractère d'extinction par l'UART) {
 	Disable_Timer3; //Désactive le signal d'allumage du pointeur
 	//}
 }
@@ -80,14 +97,5 @@ void main (void) {
 
 void ISR_timer3Overflow() interrupt 14
 {
-//Gestion du rapport cyclique
-if(FREQ_OUT) {
-	TMR3RL = 0xF4EF; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
-}
-else {
-	TMR3RL = 0xFFFF; // On garde à 65535 pour avoir la plage la plus grande possible entre les deux reload
-}
-//Générateur de signaux
-FREQ_OUT = !FREQ_OUT;
-Reset_Timer3Overflow;
+Lumiere(Intensite,Lum_ON, Lum_OFF, Lum_Nbre)
 }
