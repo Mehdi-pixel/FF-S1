@@ -33,12 +33,13 @@ int i=1;
 
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
 
-	
 
 }
 
 void Lumiere_Stop(void){
-	Disable_Timer3;
+	//If (Réception du code d'extinction par l'UART) {
+	Disable_Timer3; //Désactive le signal d'allumage du pointeur
+	//}
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -61,7 +62,7 @@ void main (void) {
 	
 	while(1)
         {
-			Lumiere(Intensite,Lum_ON,Lum_OFF,Lum_Nbre);
+			Lumiere_Stop() //On vérifie en permanence si on reçoit le caractère d'extinction
         }				               	
 }
 
@@ -79,13 +80,14 @@ void main (void) {
 
 void ISR_timer3Overflow() interrupt 14
 {
-//Générateur de signaux
+//Gestion du rapport cyclique
 if(FREQ_OUT) {
-	TMR3RL = 0xF4EF;
+	TMR3RL = 0xF4EF; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
 }
 else {
-	TMR3RL = 0xFF17;  
+	TMR3RL = 0xFFFF; // On garde à 65535 pour avoir la plage la plus grande possible entre les deux reload
 }
+//Générateur de signaux
 FREQ_OUT = !FREQ_OUT;
 Reset_Timer3Overflow;
 }
