@@ -30,17 +30,16 @@ int i=1;
 
 
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
-	if (Lum_Nbre !=0){ //Mode de clignotement (non fini)
-		if (Lum_ON !=0){
+	if (Lum_Nbre !=0 && Lum_ON !=0){
 			//On garde allumé pendant Lum_ON millisecondes
 			//On ne peut PAS utiliser de while car ça bloque le processeur
+			Lum_Nbre = Lum_Nbre - 1;
 		}
-		if (Lum_OFF !=0){
+		if (Lum_Nbre !=0 && Lum_OFF !=0){
 			//On garde éteint pendant Lum_OFF millisecondes
 			//On ne peut PAS utiliser de while car ça bloque le processeur
+			Lum_Nbre = Lum_Nbre - 1;
 		}
-		Lum_Nbre = Lum_Nbre - 1;
-	}
 	//Gestion du rapport cyclique
 	if(FREQ_OUT) {
 		TMR3RL = 0xE018; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
