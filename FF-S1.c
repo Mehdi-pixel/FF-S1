@@ -13,7 +13,7 @@
 #include "FF-S1_Config.h"
 #include "FF-S1_Divers.h"
 
-unsigned char Intensite=0xA; //On met à 10% comme valeur d'exemple
+unsigned char Intensite=20; //On met à 20% comme valeur d'exemple
 unsigned char Lum_ON=20;
 unsigned char Lum_OFF=60;
 unsigned char Lum_Nbre=10;
@@ -22,6 +22,8 @@ int one_cs = 20828; //Nombre de cycles processeur pour attendre 1cs.
 int cptON = 0;
 int cptOFF = 0;
 int divTimer = 0;
+int t_on = 0;
+int t_off = 0;
 
 sbit FREQ_OUT = P3^2;
 sbit CHG_FREQ = P0^2;
@@ -35,14 +37,17 @@ int i=1;
 
 
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
+	//Gestion de l'intensité
+	t_on = one_cs*(Intensite/100.0);
+	t_off = one_cs - t_on;
 		if (currentNum != Lum_Nbre && Lum_ON != 0 && cptON != 20*Lum_ON){
 			//On garde allumé (à l'intensité qu'on veut) pendant Lum_ON décisecondes
 			cptON++;
 			if(FREQ_OUT) {
-				TMR3RL = 0xFFFF - 16662; //Normalement variable avec Intensite
+				TMR3RL = 0xFFFF - t_on; //Variable avec Intensite
 		}
 			else {
-				TMR3RL = 0xFFFF - 4166; // On ne garde PAS à 65535, ça cause des erreurs
+				TMR3RL = 0xFFFF - t_off;
 		}
 		//Générateur de signaux
 		FREQ_OUT = !FREQ_OUT;
@@ -64,10 +69,10 @@ void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,
 		}
 		//Gestion du rapport cyclique : Mode basique sans clignotement
 	if(FREQ_OUT) {
-		TMR3RL = 0xF663; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
+		TMR3RL = 0xFFFF - t_on; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
 	}
 	else {
-		TMR3RL = 0x0; // On ne garde PAS à 65535, ça cause des erreurs
+		TMR3RL = 0xFFF - t_off; // On ne garde PAS à 65535, ça cause des erreurs
 	}
 	//Générateur de signaux
 	FREQ_OUT = !FREQ_OUT;
