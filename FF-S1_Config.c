@@ -97,7 +97,7 @@ void Port_IO_Init()
 // Config Timer 3 : Générateur de fréquence
 //-----------------------------------------------------------------------------
 void config_Timer3(void){
-	 EIE2 |= 0x01; //Timer 3 interrupt enabled
+	 //EIE2 |= 0x01; //Timer 3 interrupt enabled
 	 TMR3RL = 0xD8EF;
 	 TMR3CN = 0x04; //Timer 3 est enabled
 }
@@ -123,6 +123,18 @@ void Oscillator_Init_Osc_Quartz()
 	                     // L'oscillateur n'est pas stopp
 }
 
+void config_uart0(){
+	SM00 = 0;
+	SM10 = 1;
+	SM20 = 0;
+	REN0 = 0;
+	TB80 = 0;
+	RB80 = 0;
+	TI0 = 0;
+	RI0 = 0;
+	PCON &= 0x00;
+}
+
 //-----------------------------------------------------------------------------
 // Initialisation globale du Microcontrôleur - 
 //-----------------------------------------------------------------------------
@@ -133,6 +145,7 @@ void Init_Device(void)
     Oscillator_Init_Osc_Quartz();
 		config_Timer3();
 	  config_Timer2();
+		config_uart0();
 }
 
 

@@ -13,9 +13,9 @@
 #include "FF-S1_Config.h"
 #include "FF-S1_Divers.h"
 
-unsigned char Intensite=100; //On met à 20% comme valeur d'exemple
-unsigned char Lum_ON=5;
-unsigned char Lum_OFF=10;
+unsigned char Intensite=80; //On met à 20% comme valeur d'exemple
+unsigned char Lum_ON=10;
+unsigned char Lum_OFF=20;
 unsigned char Lum_Nbre=10;
 int currentNum = 0;
 int one_cs = 20828; //Nombre de cycles processeur pour attendre 1cs.
@@ -24,6 +24,7 @@ int cptOFF = 0;
 int divTimer = 0;
 int t_on = 0;
 int t_off = 0;
+int cpt = 0;
 
 sbit LED = P1^6;
 int i=1;
@@ -31,8 +32,37 @@ int i=1;
 #define Reset_Timer3Overflow TMR3CN &= 0x04
 #define Disable_Timer3 TMR3CN = 0x00
 // Prototypes de Fonctions
+void Reception(void){
+		while (RI0 == 0){
+			
+		}
+		RI0 = 0;
+		REN0 = 0;			//desactive reception
+		Intensite = SBUF0;
+		REN0 = 1;	//active reception pour next msg
 
+		while (RI0 == 0){
+			
+		}
+		Lum_ON = SBUF0;
+		REN0 = 1;	//active reception pour next msg
+		RI0 = 0;
 
+		while (RI0 == 0){
+			
+		}
+		Lum_OFF = SBUF0;
+		REN0 = 1;	//active reception pour next msg
+		RI0 = 0;
+		while (RI0 == 0){
+			
+		}
+		Lum_Nbre = SBUF0;
+		REN0 = 1;	//active reception pour next msg
+		RI0 = 0;
+		
+		EIE2 |= 0x01;
+}
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
 	//Gestion de l'intensité
 	t_on = one_cs*(Intensite/100.0);
@@ -90,14 +120,15 @@ void main (void) {
 	  Init_Device();  // Appel des configurations globales
 	  
 // Début Insertion Code Configuration des périphériques ***********************
- 
+		EA = 1;
 	
 // Fin Code Initialisations ***************************************************
-
+		Reception();
 	
 // Début Insertion Code Phase Démarrage ***************************************	
-			EA = 1;
-	// Fin Code phase Démarrage	***************************************************
+			
+			
+// Fin Code phase Démarrage	***************************************************
 	
 	
 	while(1)
