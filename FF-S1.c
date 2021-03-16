@@ -69,7 +69,7 @@ void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,
 		TMR3RL = 0xFFFF - t_on; // A terme, on veut pouvoir influencer ces valeurs de reload avec Intensite
 	}
 	else {
-		TMR3RL = 0xFFF - t_off; // On ne garde PAS à 65535, ça cause des erreurs
+		TMR3RL = 0xFFFF - t_off; // On ne garde PAS à 65535, ça cause des erreurs
 	}
 	//Générateur de signaux
 	LED = !LED;
