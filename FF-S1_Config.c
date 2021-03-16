@@ -14,8 +14,6 @@
 #include "C8051F020.h"
 #include "c8051F020_SFR16.h"
 
-sbit FREQ_OUT = P3^2;
-sbit CHG_FREQ = P0^2;
 sbit LED = P1^6;
 
 // Peripheral specific initialization functions,
