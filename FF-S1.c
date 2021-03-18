@@ -31,37 +31,12 @@ sbit LED = P1^6;
 int i=1;
 int k=0;
 
-char xdata buffer[5];
+char xdata buffer[10];
 
 #define Reset_Timer3Overflow TMR3CN &= 0x04
 #define Disable_Timer3 TMR3CN = 0x00
 // Prototypes de Fonctions
-void Reception(void){
-	
-		while (RI0 == 0)
-			
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Intensite = atoi(buffer);
-		k=0;
 
-<<<<<<< Updated upstream
-		while (RI0 == 0)
-			
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-=======
 unsigned char Transmission(){
 	buffer[0]='\0';
 	while (SBUF0 != '\r'){
@@ -72,51 +47,11 @@ unsigned char Transmission(){
 		REN0 = 1;	//active reception pour next msg
 		k++;
 	}
->>>>>>> Stashed changes
 		buffer[k] = '\0';
-		Lum_ON = atoi(buffer);
 		k=0;
+		return atoi(buffer);
+}
 
-<<<<<<< Updated upstream
-		while (RI0 == 0)
-			
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Lum_OFF = atoi(buffer);
-		k=0;
-		
-		while (RI0 == 0)
-			
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Intensite = atoi(buffer);
-		k=0;		
-		
-		while (RI0 == 0)
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Lum_Nbre = atoi(buffer);
-		k=0;
-		
-=======
 void Reception(void){
 	
 		while (RI0 == 0){}
@@ -127,9 +62,9 @@ void Reception(void){
 		Lum_OFF = Transmission();
 		while (RI0 == 0){}
 		Lum_Nbre = Transmission();
->>>>>>> Stashed changes
 		EIE2 |= 0x01;
 }
+
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
 	//Gestion de l'intensité
 	t_on = one_cs*(Intensite/100.0);
