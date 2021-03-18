@@ -101,12 +101,20 @@ void config_Timer3(void){
 	 TMR3RL = 0xD8EF;
 	 TMR3CN = 0x04; //Timer 3 est enabled
 }
+
+
 //-----------------------------------------------------------------------------
-// Config Timer 2 : Capture
+// Config Timer 2 : Baud Rate Generator pour l'UART 0
 //-----------------------------------------------------------------------------
-void config_Timer2(void){
-	 T2CON = 0xF; //Timer 2 actif en auto-reload, en mode compteur, avec captures autorisées
-	 ET2 = 1; //Timer 2 interrupt enabled
+void initialisation_timer2(void){
+	//Configuration de TCON2
+	RCLK0 = 1;
+	TCLK0 = 1;
+	EXF2 = 0;
+	//Defini le baud rate
+	RCAP2 = 0xFFB8;
+	
+	TR2 = 1;
 }
 
 //-----------------------------------------------------------------------------
@@ -124,14 +132,8 @@ void Oscillator_Init_Osc_Quartz()
 }
 
 void config_uart0(){
-	SM00 = 0;
 	SM10 = 1;
-	SM20 = 0;
-	REN0 = 0;
-	TB80 = 0;
-	RB80 = 0;
-	TI0 = 0;
-	RI0 = 0;
+	REN0 = 1;
 	PCON &= 0x00;
 }
 
@@ -144,7 +146,7 @@ void Init_Device(void)
     Port_IO_Init();
     Oscillator_Init_Osc_Quartz();
 		config_Timer3();
-	  config_Timer2();
+	  initialisation_timer2();
 		config_uart0();
 }
 

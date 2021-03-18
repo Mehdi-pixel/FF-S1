@@ -33,30 +33,27 @@ int i=1;
 #define Disable_Timer3 TMR3CN = 0x00
 // Prototypes de Fonctions
 void Reception(void){
-		while (RI0 == 0){
-			
-		}
+	
+		while (RI0 == 0)
 		RI0 = 0;
 		REN0 = 0;			//desactive reception
 		Intensite = SBUF0;
 		REN0 = 1;	//active reception pour next msg
 
-		while (RI0 == 0){
+		while (RI0 == 0)
 			
-		}
 		Lum_ON = SBUF0;
 		REN0 = 1;	//active reception pour next msg
 		RI0 = 0;
 
-		while (RI0 == 0){
+		while (RI0 == 0)
 			
-		}
 		Lum_OFF = SBUF0;
 		REN0 = 1;	//active reception pour next msg
 		RI0 = 0;
-		while (RI0 == 0){
+		
+		while (RI0 == 0)
 			
-		}
 		Lum_Nbre = SBUF0;
 		REN0 = 1;	//active reception pour next msg
 		RI0 = 0;
