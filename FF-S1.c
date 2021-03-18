@@ -31,79 +31,38 @@ sbit LED = P1^6;
 int i=1;
 int k=0;
 
-char xdata buffer[5];
+char xdata buffer[5]="00000";
 
 #define Reset_Timer3Overflow TMR3CN &= 0x04
 #define Disable_Timer3 TMR3CN = 0x00
 // Prototypes de Fonctions
+
+void Transmission(char buffer[5], unsigned char arg){
+	while (buffer[k] != '\r'){
+		RI0 = 0;
+		REN0 = 0;			//desactive reception
+		buffer[k] = SBUF0;
+		REN0 = 1;	//active reception pour next msg
+		k++;
+	}
+	buffer[k] = '\0';
+	arg = atoi(buffer);
+	k=0;
+}
+
 void Reception(void){
 	
 		while (RI0 == 0)
-			
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Intensite = atoi(buffer);
-		k=0;
-
+		Transmission(buffer,Intensite);
 		while (RI0 == 0)
-			
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Lum_ON = atoi(buffer);
-		k=0;
-
+		Transmission(buffer,Lum_ON);
 		while (RI0 == 0)
-			
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Lum_OFF = atoi(buffer);
-		k=0;
-		
+		Transmission(buffer,Lum_OFF);
 		while (RI0 == 0)
-			
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Intensite = atoi(buffer);
-		k=0;		
-		
-		while (RI0 == 0)
-		while (buffer[k] != '\r'){
-			RI0 = 0;
-			REN0 = 0;			//desactive reception
-			buffer[k] = SBUF0;
-			REN0 = 1;	//active reception pour next msg
-			k++;
-		}
-		buffer[k] = '\0';
-		Lum_Nbre = atoi(buffer);
-		k=0;
-		
+		Transmission(buffer,Lum_Nbre);
 		EIE2 |= 0x01;
 }
+
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
 	//Gestion de l'intensité
 	t_on = one_cs*(Intensite/100.0);
