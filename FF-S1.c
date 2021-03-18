@@ -51,6 +51,7 @@ void Reception(void){
 		Intensite = atoi(buffer);
 		k=0;
 
+<<<<<<< Updated upstream
 		while (RI0 == 0)
 			
 		while (buffer[k] != '\r'){
@@ -60,10 +61,23 @@ void Reception(void){
 			REN0 = 1;	//active reception pour next msg
 			k++;
 		}
+=======
+unsigned char Transmission(){
+	buffer[0]='\0';
+	while (SBUF0 != '\r'){
+		while (RI0 == 0){}
+		RI0 = 0;
+		REN0 = 0;			//desactive reception
+		buffer[k] = SBUF0;
+		REN0 = 1;	//active reception pour next msg
+		k++;
+	}
+>>>>>>> Stashed changes
 		buffer[k] = '\0';
 		Lum_ON = atoi(buffer);
 		k=0;
 
+<<<<<<< Updated upstream
 		while (RI0 == 0)
 			
 		while (buffer[k] != '\r'){
@@ -102,6 +116,18 @@ void Reception(void){
 		Lum_Nbre = atoi(buffer);
 		k=0;
 		
+=======
+void Reception(void){
+	
+		while (RI0 == 0){}
+		Intensite = Transmission();
+		while (RI0 == 0){}
+		Lum_ON = Transmission();
+		while (RI0 == 0){}
+		Lum_OFF = Transmission();
+		while (RI0 == 0){}
+		Lum_Nbre = Transmission();
+>>>>>>> Stashed changes
 		EIE2 |= 0x01;
 }
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
@@ -148,9 +174,10 @@ void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,
 }
 
 void Lumiere_Stop(void){
-	//If (Réception du caractère d'extinction par l'UART) {
-	//Disable_Timer3;		//Désactive le signal d'allumage du pointeur
-	//}
+	if (SBUF0 == "s") {
+	Disable_Timer3;		//Désactive le signal d'allumage du pointeur
+	LED = 0;
+	}
 }
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
