@@ -47,6 +47,7 @@ void Transmission(unsigned char arg){
 	}
 		buffer[k] = '\0';
 		arg = atoi(buffer);
+		k=0;
 }
 
 void Reception(void){
