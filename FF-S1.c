@@ -67,7 +67,11 @@ void Reception(void){
 
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
 	//Gestion de l'intensité
-	t_on = one_cs*(Intensite/100.0);
+	if (Intensite != 100){
+		t_on = one_cs*(Intensite/100.0);
+	}
+	else
+		t_on = one_cs;
 	t_off = one_cs - t_on;
 		if (currentNum != Lum_Nbre && Lum_ON != 0 && cptON != 20*Lum_ON){
 			//On garde allumé (à l'intensité qu'on veut) pendant Lum_ON décisecondes
@@ -109,7 +113,7 @@ void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,
 }
 
 void Lumiere_Stop(void){
-	if (SBUF0 == "s") {
+	if (SBUF0 == 's') {
 	Disable_Timer3;		//Désactive le signal d'allumage du pointeur
 	LED = 0;
 	}

@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    03/18/2021  11:45:02  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    03/18/2021  11:48:57  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -49,29 +49,28 @@ LINK MAP OF MODULE:  .\Objects\FF-S1 (FF_S1)
             CODE    0000H     0003H     ABSOLUTE     
             CODE    0003H     0048H     UNIT         ?PR?TRANSMISSION?FF_S1
             CODE    004BH     0024H     UNIT         ?PR?RECEPTION?FF_S1
-            CODE    006FH     0002H     UNIT         ?CO?FF_S1
-                    0071H     0002H                  *** GAP ***
+                    006FH     0004H                  *** GAP ***
             CODE    0073H     0003H     ABSOLUTE     
             CODE    0076H     029EH     UNIT         ?C?LIB_CODE
-            CODE    0314H     0101H     UNIT         ?PR?_LUMIERE?FF_S1
-            CODE    0415H     00AEH     UNIT         ?PR?_ATOI?ATOI
-            CODE    04C3H     008CH     UNIT         ?C_C51STARTUP
-            CODE    054FH     0044H     UNIT         ?PR?ISR_TIMER3OVERFLOW?FF_S1
-            CODE    0593H     0035H     UNIT         ?C_INITSEG
-            CODE    05C8H     001BH     UNIT         ?PR?OSCILLATOR_INIT_OSC_QUARTZ?FF_S1_CONFIG
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:45:02  PAGE 2
+            CODE    0314H     010EH     UNIT         ?PR?_LUMIERE?FF_S1
+            CODE    0422H     00AEH     UNIT         ?PR?_ATOI?ATOI
+            CODE    04D0H     008CH     UNIT         ?C_C51STARTUP
+            CODE    055CH     0044H     UNIT         ?PR?ISR_TIMER3OVERFLOW?FF_S1
+            CODE    05A0H     0035H     UNIT         ?C_INITSEG
+            CODE    05D5H     001BH     UNIT         ?PR?OSCILLATOR_INIT_OSC_QUARTZ?FF_S1_CONFIG
+            CODE    05F0H     0019H     UNIT         ?PR?PORT_IO_INIT?FF_S1_CONFIG
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:48:57  PAGE 2
 
 
-            CODE    05E3H     0019H     UNIT         ?PR?PORT_IO_INIT?FF_S1_CONFIG
-            CODE    05FCH     0013H     UNIT         ?PR?LUMIERE_STOP?FF_S1
-            CODE    060FH     0013H     UNIT         ?PR?_ISSPACE?ISSPACE
-            CODE    0622H     0012H     UNIT         ?PR?INIT_DEVICE?FF_S1_CONFIG
-            CODE    0634H     000FH     UNIT         ?PR?INITIALISATION_TIMER2?FF_S1_CONFIG
-            CODE    0643H     000FH     UNIT         ?PR?_ISDIGIT?ISDIGIT
-            CODE    0652H     000DH     UNIT         ?PR?MAIN?FF_S1
-            CODE    065FH     000AH     UNIT         ?PR?CONFIG_TIMER3?FF_S1_CONFIG
-            CODE    0669H     0008H     UNIT         ?PR?CONFIG_UART0?FF_S1_CONFIG
-            CODE    0671H     0007H     UNIT         ?PR?RESET_SOURCES_INIT?FF_S1_CONFIG
+            CODE    0609H     0013H     UNIT         ?PR?_ISSPACE?ISSPACE
+            CODE    061CH     0012H     UNIT         ?PR?INIT_DEVICE?FF_S1_CONFIG
+            CODE    062EH     000FH     UNIT         ?PR?INITIALISATION_TIMER2?FF_S1_CONFIG
+            CODE    063DH     000FH     UNIT         ?PR?_ISDIGIT?ISDIGIT
+            CODE    064CH     000DH     UNIT         ?PR?MAIN?FF_S1
+            CODE    0659H     000BH     UNIT         ?PR?LUMIERE_STOP?FF_S1
+            CODE    0664H     000AH     UNIT         ?PR?CONFIG_TIMER3?FF_S1_CONFIG
+            CODE    066EH     0008H     UNIT         ?PR?CONFIG_UART0?FF_S1_CONFIG
+            CODE    0676H     0007H     UNIT         ?PR?RESET_SOURCES_INIT?FF_S1_CONFIG
 
 
 
@@ -115,23 +114,20 @@ SEGMENT                                             BIT_GROUP          DATA_GROU
   +--> ?PR?_ISSPACE?ISSPACE
   +--> ?PR?_ISDIGIT?ISDIGIT
 
-?PR?LUMIERE_STOP?FF_S1                           -----    -----      -----    -----
-  +--> ?CO?FF_S1
-
-
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:45:02  PAGE 3
-
 
 
 SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
 
   VALUE           TYPE          NAME
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:48:57  PAGE 3
+
+
   ----------------------------------
 
   -------         MODULE        FF_S1
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:0090H         PUBLIC        P1
-  C:054FH         PUBLIC        ISR_timer3Overflow
+  C:055CH         PUBLIC        ISR_timer3Overflow
   B:00A8H.7       PUBLIC        EA
   D:00E7H         PUBLIC        EIE2
   D:00E8H         PUBLIC        ADC0CN
@@ -144,7 +140,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   D:00B8H         PUBLIC        IP
   D:000BH         PUBLIC        cptOFF
   D:00C0H         PUBLIC        SMB0CN
-  C:0652H         PUBLIC        main
+  C:064CH         PUBLIC        main
   D:000DH         PUBLIC        Lum_ON
   C:004BH         PUBLIC        Reception
   D:00F8H         PUBLIC        SPI0CN
@@ -159,7 +155,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   B:0098H.0       PUBLIC        RI0
   B:0090H.6       PUBLIC        LED
   C:0314H         PUBLIC        _Lumiere
-  C:05FCH         PUBLIC        Lumiere_Stop
+  C:0659H         PUBLIC        Lumiere_Stop
   D:0099H         PUBLIC        SBUF0
   D:0098H         PUBLIC        SCON0
   D:0017H         PUBLIC        cptON
@@ -179,13 +175,13 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   C:0013H         LINE#         45
   C:0015H         LINE#         46
   C:0024H         LINE#         47
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:45:02  PAGE 4
-
-
   C:0026H         LINE#         48
   C:002EH         LINE#         49
   C:0030H         LINE#         50
   C:003EH         LINE#         51
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:48:57  PAGE 4
+
+
   C:0042H         LINE#         52
   -------         ENDPROC       TRANSMISSION
   -------         PROC          RECEPTION
@@ -208,64 +204,67 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   D:0024H         SYMBOL        Lum_Nbre
   C:0314H         LINE#         68
   C:0318H         LINE#         70
-  C:034AH         LINE#         71
-  C:0357H         LINE#         72
-  C:0376H         LINE#         74
-  C:037EH         LINE#         75
-  C:0381H         LINE#         76
-  C:038BH         LINE#         77
-  C:038DH         LINE#         78
-  C:0393H         LINE#         79
-  C:03A1H         LINE#         80
-  C:03A1H         LINE#         82
-  C:03A3H         LINE#         83
-  C:03A6H         LINE#         84
-  C:03ACH         LINE#         86
-  C:03ACH         LINE#         87
-  C:03CAH         LINE#         89
-  C:03D2H         LINE#         90
-  C:03D4H         LINE#         91
-  C:03DAH         LINE#         92
-  C:03DDH         LINE#         93
-  C:03E7H         LINE#         94
-  C:03EFH         LINE#         95
-  C:03F4H         LINE#         96
-  C:03F5H         LINE#         98
-  C:03F5H         LINE#         100
-  C:03FBH         LINE#         101
+  C:031DH         LINE#         71
+  C:034FH         LINE#         72
+  C:0351H         LINE#         74
+  C:0357H         LINE#         75
+  C:0364H         LINE#         76
+  C:0383H         LINE#         78
+  C:038BH         LINE#         79
+  C:038EH         LINE#         80
+  C:0398H         LINE#         81
+  C:039AH         LINE#         82
+  C:03A0H         LINE#         83
+  C:03AEH         LINE#         84
+  C:03AEH         LINE#         86
+  C:03B0H         LINE#         87
+  C:03B3H         LINE#         88
+  C:03B9H         LINE#         90
+  C:03B9H         LINE#         91
+  C:03D7H         LINE#         93
+  C:03DFH         LINE#         94
+  C:03E1H         LINE#         95
+  C:03E7H         LINE#         96
+  C:03EAH         LINE#         97
+  C:03F4H         LINE#         98
+  C:03FCH         LINE#         99
+  C:0401H         LINE#         100
   C:0402H         LINE#         102
-  C:0404H         LINE#         103
-  C:0404H         LINE#         104
-  C:040FH         LINE#         105
-  C:040FH         LINE#         107
+  C:0402H         LINE#         104
+  C:0408H         LINE#         105
+  C:040FH         LINE#         106
+  C:0411H         LINE#         107
   C:0411H         LINE#         108
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:45:02  PAGE 5
+  C:041CH         LINE#         109
+  C:041CH         LINE#         111
+  C:041EH         LINE#         112
+  C:0421H         LINE#         113
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:48:57  PAGE 5
 
 
-  C:0414H         LINE#         109
   -------         ENDPROC       _LUMIERE
   -------         PROC          LUMIERE_STOP
-  C:05FCH         LINE#         111
-  C:05FCH         LINE#         112
-  C:0609H         LINE#         113
-  C:060CH         LINE#         114
-  C:060EH         LINE#         115
-  C:060EH         LINE#         116
+  C:0659H         LINE#         115
+  C:0659H         LINE#         116
+  C:065EH         LINE#         117
+  C:0661H         LINE#         118
+  C:0663H         LINE#         119
+  C:0663H         LINE#         120
   -------         ENDPROC       LUMIERE_STOP
   -------         PROC          MAIN
-  C:0652H         LINE#         121
-  C:0652H         LINE#         123
-  C:0655H         LINE#         126
-  C:0657H         LINE#         129
-  C:065AH         LINE#         137
-  C:065AH         LINE#         138
-  C:065AH         LINE#         139
-  C:065DH         LINE#         140
+  C:064CH         LINE#         125
+  C:064CH         LINE#         127
+  C:064FH         LINE#         130
+  C:0651H         LINE#         133
+  C:0654H         LINE#         141
+  C:0654H         LINE#         142
+  C:0654H         LINE#         143
+  C:0657H         LINE#         144
   -------         ENDPROC       MAIN
   -------         PROC          ISR_TIMER3OVERFLOW
-  C:054FH         LINE#         155
-  C:056CH         LINE#         157
-  C:0578H         LINE#         158
+  C:055CH         LINE#         159
+  C:0579H         LINE#         161
+  C:0585H         LINE#         162
   -------         ENDPROC       ISR_TIMER3OVERFLOW
   -------         ENDMOD        FF_S1
 
@@ -278,33 +277,33 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   D:00B0H         PUBLIC        P3
   D:00E8H         PUBLIC        ADC0CN
   D:00A4H         PUBLIC        P0MDOUT
-  C:05C8H         PUBLIC        Oscillator_Init_Osc_Quartz
+  C:05D5H         PUBLIC        Oscillator_Init_Osc_Quartz
   D:00A5H         PUBLIC        P1MDOUT
   D:00A8H         PUBLIC        IE
   D:00A7H         PUBLIC        P3MDOUT
-  C:065FH         PUBLIC        config_Timer3
+  C:0664H         PUBLIC        config_Timer3
   B:00C8H.6       PUBLIC        EXF2
   B:0098H.4       PUBLIC        REN0
-  C:05E3H         PUBLIC        Port_IO_Init
+  C:05F0H         PUBLIC        Port_IO_Init
   D:00D8H         PUBLIC        PCA0CN
   D:00B8H         PUBLIC        IP
   D:00E1H         PUBLIC        XBR0
   D:00E2H         PUBLIC        XBR1
   D:00E3H         PUBLIC        XBR2
-  C:0634H         PUBLIC        initialisation_timer2
+  C:062EH         PUBLIC        initialisation_timer2
   D:00C0H         PUBLIC        SMB0CN
   D:00F8H         PUBLIC        SPI0CN
   D:0087H         PUBLIC        PCON
   D:0088H         PUBLIC        TCON
   D:0091H         PUBLIC        TMR3CN
   D:00B2H         PUBLIC        OSCICN
-  C:0671H         PUBLIC        Reset_Sources_Init
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:45:02  PAGE 6
-
-
+  C:0676H         PUBLIC        Reset_Sources_Init
   D:0092H         PUBLIC        TMR3RL
-  C:0669H         PUBLIC        config_uart0
-  C:0622H         PUBLIC        Init_Device
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:48:57  PAGE 6
+
+
+  C:066EH         PUBLIC        config_uart0
+  C:061CH         PUBLIC        Init_Device
   D:00B1H         PUBLIC        OSCXCN
   B:00C8H.2       PUBLIC        TR2
   D:00CAH         PUBLIC        RCAP2
@@ -314,72 +313,72 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
   -------         PROC          RESET_SOURCES_INIT
-  C:0671H         LINE#         25
-  C:0671H         LINE#         26
-  C:0671H         LINE#         27
-  C:0674H         LINE#         28
-  C:0677H         LINE#         32
+  C:0676H         LINE#         25
+  C:0676H         LINE#         26
+  C:0676H         LINE#         27
+  C:0679H         LINE#         28
+  C:067CH         LINE#         32
   -------         ENDPROC       RESET_SOURCES_INIT
   -------         PROC          PORT_IO_INIT
-  C:05E3H         LINE#         38
-  C:05E3H         LINE#         39
-  C:05E3H         LINE#         80
-  C:05E6H         LINE#         81
-  C:05E9H         LINE#         82
-  C:05ECH         LINE#         83
-  C:05EFH         LINE#         85
-  C:05F2H         LINE#         86
-  C:05F5H         LINE#         87
-  C:05F8H         LINE#         88
-  C:05FBH         LINE#         95
+  C:05F0H         LINE#         38
+  C:05F0H         LINE#         39
+  C:05F0H         LINE#         80
+  C:05F3H         LINE#         81
+  C:05F6H         LINE#         82
+  C:05F9H         LINE#         83
+  C:05FCH         LINE#         85
+  C:05FFH         LINE#         86
+  C:0602H         LINE#         87
+  C:0605H         LINE#         88
+  C:0608H         LINE#         95
   -------         ENDPROC       PORT_IO_INIT
   -------         PROC          CONFIG_TIMER3
-  C:065FH         LINE#         99
-  C:065FH         LINE#         101
-  C:0665H         LINE#         102
-  C:0668H         LINE#         103
+  C:0664H         LINE#         99
+  C:0664H         LINE#         101
+  C:066AH         LINE#         102
+  C:066DH         LINE#         103
   -------         ENDPROC       CONFIG_TIMER3
   -------         PROC          INITIALISATION_TIMER2
-  C:0634H         LINE#         109
-  C:0634H         LINE#         111
-  C:0636H         LINE#         112
-  C:0638H         LINE#         113
-  C:063AH         LINE#         115
-  C:0640H         LINE#         117
-  C:0642H         LINE#         118
+  C:062EH         LINE#         109
+  C:062EH         LINE#         111
+  C:0630H         LINE#         112
+  C:0632H         LINE#         113
+  C:0634H         LINE#         115
+  C:063AH         LINE#         117
+  C:063CH         LINE#         118
   -------         ENDPROC       INITIALISATION_TIMER2
   -------         PROC          OSCILLATOR_INIT_OSC_QUARTZ
   -------         DO            
   D:0006H         SYMBOL        i
   -------         ENDDO         
-  C:05C8H         LINE#         123
-  C:05C8H         LINE#         124
-  C:05C8H         LINE#         126
-  C:05CBH         LINE#         127
-  C:05CEH         LINE#         128
-  C:05D9H         LINE#         129
-  C:05DFH         LINE#         130
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:45:02  PAGE 7
+  C:05D5H         LINE#         123
+  C:05D5H         LINE#         124
+  C:05D5H         LINE#         126
+  C:05D8H         LINE#         127
+  C:05DBH         LINE#         128
+  C:05E6H         LINE#         129
+  C:05ECH         LINE#         130
+  C:05EFH         LINE#         132
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:48:57  PAGE 7
 
 
-  C:05E2H         LINE#         132
   -------         ENDPROC       OSCILLATOR_INIT_OSC_QUARTZ
   -------         PROC          CONFIG_UART0
-  C:0669H         LINE#         134
-  C:0669H         LINE#         135
-  C:066BH         LINE#         136
-  C:066DH         LINE#         137
-  C:0670H         LINE#         138
+  C:066EH         LINE#         134
+  C:066EH         LINE#         135
+  C:0670H         LINE#         136
+  C:0672H         LINE#         137
+  C:0675H         LINE#         138
   -------         ENDPROC       CONFIG_UART0
   -------         PROC          INIT_DEVICE
-  C:0622H         LINE#         143
-  C:0622H         LINE#         144
-  C:0622H         LINE#         145
-  C:0625H         LINE#         146
-  C:0628H         LINE#         147
-  C:062BH         LINE#         148
-  C:062EH         LINE#         149
-  C:0631H         LINE#         150
+  C:061CH         LINE#         143
+  C:061CH         LINE#         144
+  C:061CH         LINE#         145
+  C:061FH         LINE#         146
+  C:0622H         LINE#         147
+  C:0625H         LINE#         148
+  C:0628H         LINE#         149
+  C:062BH         LINE#         150
   -------         ENDPROC       INIT_DEVICE
   -------         ENDMOD        FF_S1_CONFIG
 
@@ -398,7 +397,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   -------         ENDMOD        FF_S1_DIVERS
 
   -------         MODULE        ?C_STARTUP
-  C:04C3H         SEGMENT       ?C_C51STARTUP
+  C:04D0H         SEGMENT       ?C_C51STARTUP
   I:002AH         SEGMENT       ?STACK
   C:0000H         PUBLIC        ?C_STARTUP
   D:00E0H         SYMBOL        ACC
@@ -408,7 +407,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   N:0000H         SYMBOL        IBPSTACK
   N:0100H         SYMBOL        IBPSTACKTOP
   N:0080H         SYMBOL        IDATALEN
-  C:04C6H         SYMBOL        IDATALOOP
+  C:04D3H         SYMBOL        IDATALOOP
   N:0000H         SYMBOL        PBPSTACK
   N:0100H         SYMBOL        PBPSTACKTOP
   N:0000H         SYMBOL        PDATALEN
@@ -417,21 +416,21 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   N:0000H         SYMBOL        PPAGEENABLE
   D:00A0H         SYMBOL        PPAGE_SFR
   D:0081H         SYMBOL        SP
-  C:04C3H         SYMBOL        STARTUP1
+  C:04D0H         SYMBOL        STARTUP1
   N:0000H         SYMBOL        XBPSTACK
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:45:02  PAGE 8
-
-
   N:0000H         SYMBOL        XBPSTACKTOP
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  03/18/2021  11:48:57  PAGE 8
+
+
   N:0000H         SYMBOL        XDATALEN
   N:0000H         SYMBOL        XDATASTART
   C:0000H         LINE#         126
-  C:04C3H         LINE#         133
-  C:04C5H         LINE#         134
-  C:04C6H         LINE#         135
-  C:04C7H         LINE#         136
-  C:04C9H         LINE#         185
-  C:04CCH         LINE#         196
+  C:04D0H         LINE#         133
+  C:04D2H         LINE#         134
+  C:04D3H         LINE#         135
+  C:04D4H         LINE#         136
+  C:04D6H         LINE#         185
+  C:04D9H         LINE#         196
   -------         ENDMOD        ?C_STARTUP
 
   -------         MODULE        ?C?FPMUL
@@ -457,7 +456,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   -------         ENDMOD        ?C?LNEG
 
   -------         MODULE        ATOI
-  C:0415H         PUBLIC        _atoi
+  C:0422H         PUBLIC        _atoi
   -------         ENDMOD        ATOI
 
   -------         MODULE        ?C?CLDPTR
@@ -469,12 +468,12 @@ SYMBOL TABLE OF MODULE:  .\Objects\FF-S1 (FF_S1)
   -------         ENDMOD        ?C?IMUL
 
   -------         MODULE        ISDIGIT
-  C:0643H         PUBLIC        _isdigit
+  C:063DH         PUBLIC        _isdigit
   -------         ENDMOD        ISDIGIT
 
   -------         MODULE        ISSPACE
-  C:060FH         PUBLIC        _isspace
+  C:0609H         PUBLIC        _isspace
   -------         ENDMOD        ISSPACE
 
-Program Size: data=42.1 xdata=10 code=1654
+Program Size: data=42.1 xdata=10 code=1657
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
