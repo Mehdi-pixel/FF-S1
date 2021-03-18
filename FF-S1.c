@@ -12,6 +12,7 @@
 #include "c8051F020_SFR16.h"
 #include "FF-S1_Config.h"
 #include "FF-S1_Divers.h"
+#include <stdlib.h>
 
 unsigned char Intensite=80; //On met à 20% comme valeur d'exemple
 unsigned char Lum_ON=10;
@@ -28,6 +29,9 @@ int cpt = 0;
 
 sbit LED = P1^6;
 int i=1;
+int k=0;
+
+char xdata buffer[5];
 
 #define Reset_Timer3Overflow TMR3CN &= 0x04
 #define Disable_Timer3 TMR3CN = 0x00
@@ -35,28 +39,68 @@ int i=1;
 void Reception(void){
 	
 		while (RI0 == 0)
-		RI0 = 0;
-		REN0 = 0;			//desactive reception
-		Intensite = SBUF0;
-		REN0 = 1;	//active reception pour next msg
+			
+		while (buffer[k] != '\r'){
+			RI0 = 0;
+			REN0 = 0;			//desactive reception
+			buffer[k] = SBUF0;
+			REN0 = 1;	//active reception pour next msg
+			k++;
+		}
+		buffer[k] = '\0';
+		Intensite = atoi(buffer);
+		k=0;
 
 		while (RI0 == 0)
 			
-		Lum_ON = SBUF0;
-		REN0 = 1;	//active reception pour next msg
-		RI0 = 0;
+		while (buffer[k] != '\r'){
+			RI0 = 0;
+			REN0 = 0;			//desactive reception
+			buffer[k] = SBUF0;
+			REN0 = 1;	//active reception pour next msg
+			k++;
+		}
+		buffer[k] = '\0';
+		Lum_ON = atoi(buffer);
+		k=0;
 
 		while (RI0 == 0)
 			
-		Lum_OFF = SBUF0;
-		REN0 = 1;	//active reception pour next msg
-		RI0 = 0;
+		while (buffer[k] != '\r'){
+			RI0 = 0;
+			REN0 = 0;			//desactive reception
+			buffer[k] = SBUF0;
+			REN0 = 1;	//active reception pour next msg
+			k++;
+		}
+		buffer[k] = '\0';
+		Lum_OFF = atoi(buffer);
+		k=0;
 		
 		while (RI0 == 0)
 			
-		Lum_Nbre = SBUF0;
-		REN0 = 1;	//active reception pour next msg
-		RI0 = 0;
+		while (buffer[k] != '\r'){
+			RI0 = 0;
+			REN0 = 0;			//desactive reception
+			buffer[k] = SBUF0;
+			REN0 = 1;	//active reception pour next msg
+			k++;
+		}
+		buffer[k] = '\0';
+		Intensite = atoi(buffer);
+		k=0;		
+		
+		while (RI0 == 0)
+		while (buffer[k] != '\r'){
+			RI0 = 0;
+			REN0 = 0;			//desactive reception
+			buffer[k] = SBUF0;
+			REN0 = 1;	//active reception pour next msg
+			k++;
+		}
+		buffer[k] = '\0';
+		Lum_Nbre = atoi(buffer);
+		k=0;
 		
 		EIE2 |= 0x01;
 }
