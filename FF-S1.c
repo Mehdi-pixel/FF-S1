@@ -31,13 +31,14 @@ sbit LED = P1^6;
 int i=1;
 int k=0;
 
-char xdata buffer[35];
+char xdata buffer[10];
 
 #define Reset_Timer3Overflow TMR3CN &= 0x04
 #define Disable_Timer3 TMR3CN = 0x00
 // Prototypes de Fonctions
 
 unsigned char Transmission(){
+	buffer[0]='\0';
 	while (buffer[k] != '\r'){
 		while (RI0 == 0){}
 		RI0 = 0;
