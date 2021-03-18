@@ -67,11 +67,7 @@ void Reception(void){
 
 void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,unsigned char Lum_Nbre){
 	//Gestion de l'intensité
-	if (Intensite != 100){
-		t_on = one_cs*(Intensite/100.0);
-	}
-	else
-		t_on = one_cs;
+	t_on = one_cs*(Intensite/100.0);
 	t_off = one_cs - t_on;
 		if (currentNum != Lum_Nbre && Lum_ON != 0 && cptON != 20*Lum_ON){
 			//On garde allumé (à l'intensité qu'on veut) pendant Lum_ON décisecondes
@@ -83,7 +79,12 @@ void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,
 				TMR3RL = 0xFFFF - t_off;
 		}
 		//Générateur de signaux
+		if (t_off != 0){
 		LED = !LED;
+		}
+		else{
+			LED = 1;
+		}
 		Reset_Timer3Overflow;
 		cptOFF = 0; //Reset du compteur de Lum_OFF pour son prochain allumage
 		return ;
@@ -108,7 +109,12 @@ void Lumiere(unsigned char Intensite,unsigned char Lum_ON,unsigned char Lum_OFF,
 		TMR3RL = 0xFFFF - t_off; // On ne garde PAS à 65535, ça cause des erreurs
 	}
 	//Générateur de signaux
+	if (t_off != 0){
 	LED = !LED;
+	}
+	else{
+		LED = 1;
+	}
 	Reset_Timer3Overflow;
 }
 
