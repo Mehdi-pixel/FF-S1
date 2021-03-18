@@ -39,6 +39,7 @@ char xdata buffer[35];
 
 unsigned char Transmission(){
 	while (buffer[k] != '\r'){
+		while (RI0 == 0){}
 		RI0 = 0;
 		REN0 = 0;			//desactive reception
 		buffer[k] = SBUF0;
