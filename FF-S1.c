@@ -37,7 +37,7 @@ char xdata buffer[35];
 #define Disable_Timer3 TMR3CN = 0x00
 // Prototypes de Fonctions
 
-void Transmission(unsigned char arg){
+unsigned char Transmission(){
 	while (buffer[k] != '\r'){
 		RI0 = 0;
 		REN0 = 0;			//desactive reception
@@ -46,20 +46,20 @@ void Transmission(unsigned char arg){
 		k++;
 	}
 		buffer[k] = '\0';
-		arg = atoi(buffer);
 		k=0;
+		return atoi(buffer);
 }
 
 void Reception(void){
 	
 		while (RI0 == 0){}
-		Transmission(Intensite);
+		Intensite = Transmission();
 		while (RI0 == 0){}
-		Transmission(Lum_ON);
+		Lum_ON = Transmission();
 		while (RI0 == 0){}
-		Transmission(Lum_OFF);
+		Lum_ON = Transmission();
 		while (RI0 == 0){}
-		Transmission(Lum_Nbre);
+		Lum_ON = Transmission();
 		EIE2 |= 0x01;
 }
 
