@@ -84,10 +84,7 @@ void Port_IO_Init()
 		//P2MDOUT |=0x0; Inchangé, on laisse en Open Drain car entrée
 		P3MDOUT   |= 0x04; //P3.2 en Push-Pull, car c'est une sortie
     XBR0      = 0x04; //Activation de l'UART0
-    XBR1      = 0x40; //Activation de l'external input Timer2
-    XBR2      = 0x58; //Activation du crossbar en tant que tel
-		
-		
+    XBR2      = 0x40; //Activation du crossbar
 		
      
 // Fin Insertion Code configuration Crossbar et GPIO **************************
